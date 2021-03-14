@@ -1,0 +1,3 @@
+0:0:0:0:0:0:0:1 - - [14/Mar/2021:22:46:27 +0900] "GET /SASCampaign/ HTTP/1.1" 404 975 http-bio-8080-exec-1 48
+0:0:0:0:0:0:0:1 - - [14/Mar/2021:22:46:27 +0900] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
+0:0:0:0:0:0:0:1 - - [14/Mar/2021:22:46:53 +0900] "GET /SASCampaign/main.do HTTP/1.1" 404 989 http-bio-8080-exec-4 2

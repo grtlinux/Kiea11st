@@ -8,11 +8,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>kr.co</groupId>
-  <artifactId>sascampaign11st</artifactId>
+  <!-- artifactId>sascampaign11st</artifactId -->
+  <artifactId>SASCampaign</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>sascampaign11st</name>
+  <!-- name>sascampaign11st</name -->
+  <name>SASCampaign</name>
   <url>http://maven.apache.org</url>
   
   <properties>
