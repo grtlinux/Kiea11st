@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="monitoring">
+	<select id="monitoringSelectMax" parameterType="map" resultType="string">
+	</select>
+	
+	<select id="monitoringSelect" parameterType="map" resultType="map">
+	</select>
+	
+	<update id="monitoringUpdateExec" parameterType="map">
+	</update>
+	
+	<update id="monitoringUpdateReq" parameterType="map">
+	</update>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="exceptCustomer">
+    <select id="exceptCustomerSelect" parameterType="map" resultType="map">
+         <![CDATA[
+         SELECT T1.CRM_NO                                                            AS CRM_NO
+               , T3.MEM_NO                                                            AS MEM_NO
+               , CASE WHEN T3.GNDR_CD = '2' THEN '여성'
+                     WHEN T3.GNDR_CD = '1' THEN '남성'
+                     ELSE '미정의'
+                  END                                                                 AS GNDR_CD
+               , T3.AGE_CD                                                            AS AGE_CD
+               , T2.RS_NM                                                             AS RS_NM
+               , T1.REG_ORG_CD                                                        AS REG_ORG_CD
+               , T1.REG_USER_NO                                                       AS REG_USER_NO
+               , T1.REG_DT                                                            AS REG_DT
+               , T1.APPLY_STRT_DT                                                     AS APPLY_STRT_DT
+               , T1.APPLY_END_DT                                                      AS APPLY_END_DT
+               , CASE WHEN APPLY_END_DT > CURRENT_DATE THEN '적용중' ELSE '종료' END  AS STATUS
+            FROM CPA.CP_EXP_CUST                T1
+            LEFT OUTER JOIN CPA.CP_ADD_EXP_CD   T2
+                        ON T1.RS_CD = T2.RS_CD
+            LEFT OUTER JOIN CPM.CP_CUST         T3
+                        ON T1.CRM_NO = T3.CRM_NO
+         WHERE 1=1
+         ]]>
+         <if test="last_crm_no != null">
+            AND T1.CRM_NO > #{last_crm_no}
+         </if>
+         <if test="search_team != null">
+            AND T1.REG_ORG_CD = #{search_team}
+         </if>
+         <if test="search_emp != null">
+            AND T1.REG_USER_NO = #{search_emp}
+         </if>
+         <if test="searchDate != null">
+            AND T1.REQ_DT = CAST(#{search_date} AS DATE)
+         </if>
+         <![CDATA[
+         ORDER BY T1.RS_CD, T1.CRM_NO
+         ]]>
+    </select>
+    <select id="exceptCustomerCount" resultType="int">
+         <![CDATA[
+         SELECT COUNT(*) AS CNT
+            FROM CPA.CP_EXP_CUST
+         ]]>
+    </select>
+    <update id="exceptCustomerUpdate" parameterType="map">
+         <![CDATA[
+         UPDATE CPA.CP_EXP_CUST
+            SET APPLY_END_DT = CURRENT_DATE
+         WHERE CRM_NO = #{crm_no}
+         ]]>
+    </update>
+    <select id="exceptCustomerSearch" parameterType="map" resultType="map">
+         <![CDATA[
+         SELECT CRM_NO   AS CRM_NO
+               , MEM_NO   AS MEM_NO
+               , GNDR_CD  AS GNDR_CD
+               , AGE_CD   AS AGE_CD
+            FROM CPM.CP_CUST
+         WHERE MEM_NO = #{mem_no}
+         ]]>
+    </select>
+    <insert id="exceptCustomerInsert" parameterType="map">
+         <![CDATA[
+         INSERT
+            INTO CPA.CP_EXP_CUST
+               (
+               CRM_NO
+               , RS_CD
+               , STORE_CD
+               , APPLY_STRT_DT
+               , APPLY_END_DT
+               , REG_ORG_CD
+               , REG_USER_NO
+               , REG_DT
+               )
+         VALUES
+               (
+               #{crm_no}
+               , 'H'
+               , ''
+               , CURRENT_DATE
+               , CAST('99991231' AS DATE FORMAT 'YYYYMMDD')
+               , ''
+               , #{emp_no}
+               , CURRENT_DATE
+               )
+         ]]>
+    </insert>
+</mapper>

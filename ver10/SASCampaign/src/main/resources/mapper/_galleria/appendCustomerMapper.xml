@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="appendCustomer">
+	<select id="appendCustomerSelect" parameterType="map" resultType="map">
+	</select>
+	
+	<select id="appendCustomerCount" resultType="int">
+	</select>
+	
+	<update id="appendCustomerUpdate" parameterType="map">
+	</update>
+	
+	<select id="appendCustomerSearch" parameterType="map" resultType="map">
+	</select>
+	
+	<insert id="appendCustomerInsert" parameterType="map">
+	</insert>
+</mapper>

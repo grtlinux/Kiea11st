@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="approval">
+	<!-- Paging 처리는 TOP 구문 사용 -->
+	<select id="approveInteractSelect" parameterType="map" resultType="map">
+	</select>
+	
+	<!-- Paging 처리는 TOP 구문 사용 -->
+	<select id="approveSelect" parameterType="map" resultType="map">
+	</select>
+	
+	<update id="changeConfirmStatus" parameterType="map">
+	</update>
+	
+	<select id="approveDetailChannelMessage" parameterType="map" resultType="map">
+	</select>
+	
+	<!-- 2016.08.03 메시지발송길이 체크 -->    
+	<select id="approveChkMsg" parameterType="map" resultType="map">
+	</select>
+</mapper>

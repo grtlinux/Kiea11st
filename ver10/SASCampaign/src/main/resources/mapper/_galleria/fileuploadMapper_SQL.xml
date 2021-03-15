@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fileupload">
+    <!-- Paging 처리는 TOP 구문 사용 -->
+    <select id="fileuploadSelect" parameterType="map" resultType="map">
+        <![CDATA[
+        SELECT FILE_SEQ       AS FILE_SEQ
+            , FILE_NM        AS FILE_NM
+            , SERVER_FILE_NM AS SERVER_FILE_NM
+          FROM CPV.CP_CMPGN_DOCUMT
+        WHERE SERVER_FILE_NM = TRIM('D:/SASUpload')
+          AND FILE_NM        LIKE '%'||#{userid}||'%'
+          AND EMP_ID         = #{userid}
+        ORDER BY FILE_SEQ
+        ]]>
+    </select>
+    <insert id="fileuploadInsert" parameterType="map">
+        <![CDATA[
+        INSERT
+          INTO CPA.CP_CMPGN_DOCUMT
+            (
+              FILE_SEQ
+            , FILE_NM
+            , SERVER_FILE_NM
+            , EMP_ID
+            )
+        SELECT CASE WHEN MAX(FILE_SEQ) IS NULL THEN 1 ELSE MAX(FILE_SEQ) + 1 END
+            , #{file_nm}
+            , TRIM('D:/SASUpload')
+            , #{userid}
+          FROM CPA.CP_CMPGN_DOCUMT
+        ]]>
+    </insert>
+    <update id="fileuploadDelete" parameterType="map">
+        <![CDATA[
+        DELETE FROM CPA.CP_CMPGN_DOCUMT
+        WHERE FILE_SEQ = #{file_seq}
+          AND EMP_ID = #{userid}
+        ]]>
+    </update>
+</mapper>

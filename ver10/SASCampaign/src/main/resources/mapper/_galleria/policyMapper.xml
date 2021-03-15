@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="policy">
+	<select id="policySelect" parameterType="map" resultType="map">
+	</select>
+	
+	<!-- 정책 등록 -->
+	<insert id="policyInsert" parameterType="map">
+	</insert>
+	
+	<!-- 정책 삭제 -->
+	<insert id="policyDelete" parameterType="map">
+	</insert>
+	
+	<!-- 정책 view 생성 -->
+	<insert id="policyViewCreate" parameterType="map">
+	</insert>
+	
+	<!-- 정책 view 생성 가능여부 체크 -->
+	<insert id="policyViewCheck" parameterType="map">
+	</insert>
+	
+	<select id="policyMetaSelect" parameterType="map" resultType="map">
+	</select>
+</mapper>

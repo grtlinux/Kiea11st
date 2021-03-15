@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="combo">
+	<select id="viewStoreCd" resultType="string">
+		<![CDATA[
+		SELECT TOP 1
+			  CASE WHEN DEPT_CD = '000370' THEN 'CR'
+					WHEN DEPT_CD = '002500' THEN 'JI'
+					WHEN DEPT_CD = '001500' THEN 'SU'
+					WHEN DEPT_CD = '002900' THEN 'CH'
+					WHEN DEPT_CD = '005400' THEN 'TI'
+					WHEN DEPT_CD = '009100' THEN 'MY'
+					ELSE 'ZZ'
+				END AS PREFIX_STORE_CD
+		  FROM CPV.CP_EMP
+		WHERE EMP_NO = #{empno}
+		]]>
+	</select>
+	<select id="listDept" resultType="map">
+		<![CDATA[
+		SELECT DISTINCT
+			  DEPT_NM AS ORG_NM
+		  FROM CPM.CP_EMP
+		WHERE ORG_NM IS NOT NULL
+		ORDER BY 1
+		]]>
+	</select>
+	<select id="listEmp" parameterType="string" resultType="map">
+		<![CDATA[
+		SELECT DISTINCT
+			  EMP_NO AS EMP_ID
+			, EMP_NM AS EMP_NM
+		  FROM CPM.CP_EMP		T1
+		WHERE EMP_NM IS NOT NULL
+		]]>
+		<if test="userid != null">
+		  AND EXISTS (SELECT 1 FROM CPV.CP_EMP T2 WHERE T1.TEAM_CD = T2.TEAM_CD AND T2.EMP_NO = #{userid})
+		</if>
+		<![CDATA[
+		ORDER BY 1
+		]]>
+	</select>
+	<select id="listChannel" resultType="map">
+		<![CDATA[
+		SELECT SAS_CHNL_CD  AS CHNL_CD
+			, CHNL_NM	  AS CHNL_NM
+		  FROM CPV.CD_CHNL
+		WHERE CHNL_NM IS NOT NULL
+		]]>
+	</select>
+	<select id="checkAuthCenter" resultType="map">
+		<![CDATA[
+		SELECT MAX(USER_AUTH) AS AUTH
+		  FROM (
+				SELECT MNGR_YN AS USER_AUTH
+				  FROM CP_EMP
+				WHERE SASUSER_YN = 'Y'
+				  AND EMP_NO	 = #{uid}
+				) AAA
+		]]>
+	</select>
+	<select id="checkEventManager" resultType="map">
+		<![CDATA[
+		SELECT MAX(USER_AUTH) AS EVENT_AUTH
+		  FROM (
+				SELECT EVNT_MNGR_YN AS USER_AUTH
+				  FROM CP_EMP
+				WHERE EVNT_MNGR_YN = 'Y'
+				  AND EMP_NO	 = #{uid}
+				UNION ALL
+				SELECT 'A'
+				  FROM CP_EMP
+				) AAA
+		]]>
+	</select>
+</mapper>
+
+

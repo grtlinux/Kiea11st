@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SAS Campaign Management</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8"></meta>
+<link href="/sasma/favicon.ico" rel="shortcut icon"/>
+<style type="text/css">
+<!--
+.textTitle {
+    font-size:30px;
+    font-weight:bold;
+    color:#FFFFFF;
+}
+.textMenu {
+    font-size:12px;
+    color:#CCCCCC;
+}
+.tdMain {
+    /*background-color:#36383C;*/
+    background-color:#323433;
+}
+.tdMain:hover {
+    /*background-color:#4A4A4D;*/
+    background-color:#434343;
+}
+.tdApprove {
+    background:url("/sasma/images/approve-off.png") no-repeat;
+}
+.tdApprove:hover {
+    background:url("/sasma/images/approve-on.png") no-repeat;
+}
+.tdMonitor {
+    background:url("/sasma/images/monitor-off.png") no-repeat;
+}
+.tdMonitor:hover {
+    background:url("/sasma/images/monitor-on.png") no-repeat;
+}
+.tdDesign {
+    background:url("/sasma/images/design-off.png") no-repeat;
+}
+.tdDesign:hover {
+    background:url("/sasma/images/design-on.png") no-repeat;
+}
+.tdExcept {
+    background:url("/sasma/images/except-off.png") no-repeat;
+}
+.tdExcept:hover {
+    background:url("/sasma/images/except-on.png") no-repeat;
+}
+.tdExcel {
+    background:url("/sasma/images/excel-off.png") no-repeat;
+}
+.tdExcel:hover {
+    background:url("/sasma/images/excel-on.png") no-repeat;
+}
+.tdAppend {
+    background:url("/sasma/images/append-off.png") no-repeat;
+}
+.tdAppend:hover {
+    background:url("/sasma/images/append-on.png") no-repeat;
+}
+.tdPolicy {
+    background:url("/sasma/images/center-policy-off.png") no-repeat;
+}
+.tdPolicy:hover {
+    background:url("/sasma/images/center-policy-on.png") no-repeat;
+}
+.sortable tr:hover {
+    cursor: pointer;
+}
+select.comboTeam option.option_combo
+{
+    background-color: #4A4A4D;
+}
+-->
+html
+{
+    overflow-x: hidden;
+    overflow-y: yes;
+}
+body
+{
+    font-family:'Malgun Gothic' !important;
+    margin: 0;
+    padding: 0;
+}
+</style>
+</head>

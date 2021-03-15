@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mmsupload">
+    <!-- Paging 처리는 TOP 구문 사용 -->
+    <select id="mmsuploadSelect" parameterType="map" resultType="map">
+        <![CDATA[
+        SELECT FILE_SEQ       AS FILE_SEQ
+            , FILE_NM        AS FILE_NM
+            , SERVER_FILE_NM AS SERVER_FILE_NM
+          FROM CPA.CP_CMPGN_MMS
+        WHERE FILE_NM        LIKE '%'||#{userid}||'%'
+        ORDER BY FILE_SEQ
+        ]]>
+    </select>
+    <insert id="mmsuploadInsert" parameterType="map">
+        <![CDATA[
+        INSERT
+          INTO CPA.CP_CMPGN_MMS
+            (
+              FILE_SEQ
+            , FILE_NM
+            , SERVER_FILE_NM
+            )
+        SELECT CASE WHEN MAX(FILE_SEQ) IS NULL THEN 1 ELSE MAX(FILE_SEQ) + 1 END
+            , #{file_nm}
+            , TRIM('D:/SASUpload/MMSIMG')
+          FROM CPA.CP_CMPGN_MMS
+        ]]>
+    </insert>
+    <update id="mmsuploadDelete" parameterType="map">
+        <![CDATA[
+        DELETE FROM CPA.CP_CMPGN_MMS
+        WHERE FILE_SEQ = #{file_seq}
+        ]]>
+    </update>
+</mapper>
