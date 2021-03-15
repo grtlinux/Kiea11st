@@ -12,7 +12,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>sascampaign</name>
+  <name>SASCampaign</name>
   <url>http://maven.apache.org</url>
   
   <properties>
@@ -508,7 +508,7 @@
           <path>/SASCampaign</path>
           <contextReloadable>true</contextReloadable>
           <systemProperties>
-            <JAVA_OPTS>-Xms256m -Xmx256m --XX:MaxPermSize=128m</JAVA_OPTS>
+            <JAVA_OPTS>-Xms512m -Xmx512m --XX:MaxPermSize=128m</JAVA_OPTS>
           </systemProperties>
         </configuration>
       </plugin>
