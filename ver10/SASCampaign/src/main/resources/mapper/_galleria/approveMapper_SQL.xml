@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="approval">
+	<!-- Paging 처리는 TOP 구문 사용 -->
+	<select id="approveInteractSelect" parameterType="map" resultType="map">
+		<![CDATA[
+		SELECT T1.CMPGN_ID                                               AS CMPGN_ID
+				, CASE WHEN T2.TEAM_NM IS NULL OR TRIM(T2.TEAM_NM) = '' THEN '부서없음'
+						ELSE T2.TEAM_NM
+					END                                                     AS EXEC_DEPT_CD
+				, T1.CMPGN_NM                                               AS CMPGN_NM
+				, T1.CMPGN_EVENT_STRT_DT                                    AS SCHEDULE_STRT_DT
+				, T1.CMPGN_EVENT_END_DT                                     AS SCHEDULE_END_DT
+				, T1.CONFIRM_STATUS_CD                                      AS CONFIRM_STATUS_CD
+				, T1.REQ_EMP_ID                                             AS REQ_EMP_ID
+				, T1.REQ_DT                                                 AS REQ_DT
+				, CASE WHEN T1.CONFIRM_STATUS_CD = 'A' THEN '승인 요청중'
+						WHEN T1.CONFIRM_STATUS_CD = 'S' THEN '승인 대기중'
+						WHEN T1.CONFIRM_STATUS_CD = 'C' THEN '승인 완료'
+						WHEN T1.CONFIRM_STATUS_CD = 'R' THEN '실행 중'
+						WHEN T1.CONFIRM_STATUS_CD = 'F' THEN '실행 완료'
+						WHEN T1.CONFIRM_STATUS_CD = 'B' THEN '실행 에러'
+						WHEN T1.CONFIRM_STATUS_CD = 'E' THEN '반송'
+						ELSE T1.CONFIRM_STATUS_CD
+					END                                                      AS CONFIRM_STATUS_NM
+				, T1.SCHEDULE_EXEC_CD                                       AS SCHEDULE_EXEC_CD
+				, T1.SCHEDULE_EXEC_TYPE                                     AS SCHEDULE_EXEC_TYPE
+				, T1.CONFIRM_STATUS_CD                                      AS CONFIRM_STATUS_CD
+			FROM
+				CP_CMPGN_REQ              T1
+				LEFT OUTER JOIN CP_EMP    T2
+					ON T1.REQ_EMP_ID = T2.EMP_NO
+		WHERE 1=1
+			AND T1.CONFIRM_STATUS_CD <> 'X'
+			AND T1.REQ_EMP_ID         = #{userid}
+		]]>
+		<if test="last_row_seq != null">
+			AND T1.CMPGN_ID > #{last_row_seq}
+		</if>
+		<if test="searchDate != null">
+			AND T1.REQ_DT = CAST(#{searchDate} AS DATE FORMAT 'YYYYMMDD')
+		</if>
+		<![CDATA[
+			ORDER BY T1.REQ_DT DESC, T1.CMPGN_ID DESC
+		]]>
+	</select>
+	<!-- Paging 처리는 TOP 구문 사용 -->
+	<select id="approveSelect" parameterType="map" resultType="map">
+		<![CDATA[
+		SELECT AAAA.CMPGN_ID                                                       AS CMPGN_ID
+		      , AAAA.EXEC_DEPT_CD                                                  AS EXEC_DEPT_CD
+		      , AAAA.CMPGN_NM                                                      AS CMPGN_NM
+		      , AAAA.CAMPAIGN_STATUS_CD                                            AS CAMPAIGN_STATUS_CD
+		      , AAAA.REQ_EMP_ID                                                    AS REQ_EMP_ID
+		      , AAAA.CAMPAIGN_PROCESSED_DT                                         AS REQ_DT
+		      , MIN(CASE WHEN ROWNUM  < CNT THEN AAAA.DATE_UDF_VAL ELSE NULL END)  AS SCHEDULE_STRT_DT
+		      , MAX(CASE WHEN ROWNUM  = CNT THEN AAAA.DATE_UDF_VAL ELSE NULL END)  AS SCHEDULE_END_DT
+		   FROM (
+		         SELECT A.CAMPAIGN_SK                                                                      AS CMPGN_ID
+		            , C.TEAM_NM                                                                            AS EXEC_DEPT_CD
+		            , A.CAMPAIGN_NM                                                                        AS CMPGN_NM
+		            , B.DATE_UDF_NM
+		            , B.DATE_UDF_VAL
+		            , CASE WHEN A.CAMPAIGN_STATUS_CD = '3_4' THEN
+		                        '시나리오 작성완료'
+		                     ELSE
+		                        '시나리오 작성중'
+		               END                                                                                 AS CAMPAIGN_STATUS_CD
+		            , A.CAMPAIGN_OWNER_NM                                                                  AS REQ_EMP_ID
+		            , A.RUN_DTTM                                                                           AS CAMPAIGN_PROCESSED_DT
+		            , ROW_NUMBER() OVER (PARTITION BY A.CAMPAIGN_SK ORDER BY A.CAMPAIGN_SK, DATE_UDF_VAL)  AS ROWNUM
+		            , COUNT(*)     OVER (PARTITION BY A.CAMPAIGN_SK ORDER BY A.CAMPAIGN_SK, DATE_UDF_VAL)  AS CNT
+		         FROM
+		            CI_CAMPAIGN             A
+		            , CI_CAMP_PAGE_DATE_UDF B
+		            , CP_EMP                C
+		         WHERE 1=1
+		            AND A.CAMPAIGN_SK = B.CAMPAIGN_SK
+		            AND A.LAST_MODIFIED_BY_USER_NM = C.EMP_NO
+		      ) AAAA
+		WHERE 1=1
+			AND NOT EXISTS (SELECT 1 FROM CP_CMPGN_REQ BBBB WHERE AAAA.CMPGN_ID = BBBB.CMPGN_ID)
+			AND AAAA.REQ_EMP_ID         = #{userid}
+		]]>
+		<if test="last_campaign_id != null">
+			AND AAAA.CMPGN_ID > #{last_campaign_id}
+		</if>
+		<if test="searchCampaign != null">
+			AND AAAA.CMPGN_NM LIKE '%'||#{searchCampaign}||'%'
+		</if>
+		<![CDATA[
+		GROUP BY AAAA.CMPGN_ID
+			, AAAA.EXEC_DEPT_CD
+			, AAAA.CMPGN_NM
+			, AAAA.CAMPAIGN_STATUS_CD
+			, AAAA.REQ_EMP_ID
+			, AAAA.CAMPAIGN_PROCESSED_DT
+		ORDER BY AAAA.CMPGN_ID
+			, AAAA.EXEC_DEPT_CD
+			, AAAA.CMPGN_NM
+			, AAAA.CAMPAIGN_STATUS_CD
+			, AAAA.REQ_EMP_ID
+			, AAAA.CAMPAIGN_PROCESSED_DT
+		]]>
+	</select>
+
+	<update id="changeConfirmStatus" parameterType="map">
+		<![CDATA[
+		UPDATE
+			CP_CMPGN_REQ
+		SET
+			CONFIRM_STATUS_CD = 'R'
+		WHERE 1=1
+			AND CMPGN_ID = #{campaign_id}
+		]]>
+	</update>
+
+	<select id="approveDetailChannelMessage" parameterType="map" resultType="map">
+		<![CDATA[
+		SELECT CHANNEL_NM
+		      , GRP_ID
+		      , CMPGN_ID
+		      , MSG_SVC_SEND_TITLE
+		      , MSG_SVC_SEND_TEXT
+		      , MAX(CASE WHEN IMGROW = 1 THEN COALESCE(IMGFILE,'X') ELSE 'X' END)
+		      ||':'||MAX(CASE WHEN IMGROW = 2 THEN COALESCE(IMGFILE,'X') ELSE 'X' END)
+		      ||':'||MAX(CASE WHEN IMGROW = 3 THEN COALESCE(IMGFILE,'X') ELSE 'X' END)
+		      ||':'||MAX(CASE WHEN IMGROW = 4 THEN COALESCE(IMGFILE,'X') ELSE 'X' END)
+		      ||':'||MAX(CASE WHEN IMGROW = 5 THEN COALESCE(IMGFILE,'X') ELSE 'X' END) AS IMGFILE
+		   FROM (
+		         SELECT INNER_CHANNEL_NM                AS CHANNEL_NM
+		            , INNER_GRP_ID                      AS GRP_ID
+		            , INNER_CMPGN_ID                    AS CMPGN_ID
+		            , INNER_MSG_SVC_SEND_TITLE          AS MSG_SVC_SEND_TITLE
+		            , INNER_MSG_SVC_SEND_TEXT           AS MSG_SVC_SEND_TEXT
+		            , COALESCE(INNER_IMGFILE,'')        AS IMGFILE
+		            , ROW_NUMBER() OVER (PARTITION BY INNER_CHANNEL_NM
+		                                       ORDER BY INNER_GRP_ID, MMS_FILE_SEQ) AS IMGROW
+		         FROM (
+		               SELECT T1.CELL_PACKAGE_SK                                                                      AS INNER_GRP_ID
+		                     , T1.CAMPAIGN_SK                                                                          AS INNER_CMPGN_ID
+		                     , T1.COMMUNICATION_NM||' ('||T2.CHANNEL_NM||')'                                           AS INNER_CHANNEL_NM
+		                     , COALESCE(T5.CHAR_UDF_VAL,'')                                                            AS INNER_MSG_SVC_SEND_TITLE
+		                     , CASE WHEN T3.CHNL_SMS_SEND_MSG IS NULL THEN TRIM(T3.CHNL_MMS_SEND_MSG) ||'0D0A'XC||COALESCE(T3.CHNL_REJECT_MSG,'')
+		                           ELSE TRIM(T3.CHNL_SMS_SEND_MSG)||COALESCE(T3.CHNL_REJECT_MSG,'') END                     AS INNER_MSG_SVC_SEND_TEXT
+		                     , T4.FILE_NM                                                                              AS INNER_IMGFILE
+		                     , MAX(T1.CELL_PACKAGE_SK) OVER (PARTITION BY T1.CAMPAIGN_SK, T1.COMMUNICATION_CD)         AS INNER_GRP_ID_MAX
+		                     , T3.MMS_FILE_SEQ
+		                  FROM 
+		                     CI_CELL_PACKAGE                 T1
+		                     INNER JOIN CI_CHANNEL           T2
+		                           ON T1.CHANNEL_CD = T2.CHANNEL_CD
+		                     INNER JOIN CI_COMMUNICATION_EXT T3
+		                           ON T1.COMMUNICATION_SK = T3.COMMUNICATION_SK
+		                     LEFT OUTER JOIN CP_CMPGN_MMS   T4
+		                                 ON T3.MMS_FILE_SEQ = T4.FILE_SEQ
+		                     LEFT OUTER JOIN CI_COMMUNICATION_CHAR_UDF   T5
+		                                 ON T1.COMMUNICATION_SK = T5.COMMUNICATION_SK
+		                                 AND T5.CHAR_EXT_COLUMN_NM = 'CHNL_MMS_SEND_TITLE'
+		                  WHERE 1=1
+		                     AND T2.CHANNEL_CD  IN ('_PM','_MP','_BT') /* MMS,LMS,SMS */
+		                     AND T1.CAMPAIGN_SK  = #{campaign_id}
+		               ) AAA
+		         WHERE 1=1
+		            AND INNER_GRP_ID = INNER_GRP_ID_MAX
+		      ) BBBB
+		GROUP BY CHANNEL_NM
+			, GRP_ID
+			, CMPGN_ID
+			, MSG_SVC_SEND_TITLE
+			, MSG_SVC_SEND_TEXT
+		ORDER BY GRP_ID
+		]]>
+	</select>
+
+	<!-- 2016.08.03 메시지발송길이 체크 -->
+	<select id="approveChkMsg" parameterType="map" resultType="map">
+		<![CDATA[
+		SELECT 
+		    COALESCE(MIN(T.ERROR_FLAG),'E0') AS chk_val
+		FROM
+			(
+			      SELECT
+			            CASE WHEN T1.CHANNEL_CD = '_BT' AND TRIM(T2.CHNL_SMS_SEND_MSG)||COALESCE(T2.CHNL_REJECT_MSG,'') NOT LIKE T4.BASE_TXT||'%' THEN 'S1'
+			               WHEN T1.CHANNEL_CD = '_BT' AND TRIM(T2.CHNL_SMS_SEND_MSG)||COALESCE(T2.CHNL_REJECT_MSG,'') NOT LIKE '%'||T3.BASE_TXT||'%' THEN 'S2'
+			               WHEN T1.CHANNEL_CD = '_BT' AND CHARACTER_LENGTH(TRIM(T2.CHNL_SMS_SEND_MSG)||COALESCE(T2.CHNL_REJECT_MSG,'')) > 90 THEN 'S3'
+
+			               WHEN T1.CHANNEL_CD = '_MP' AND TRIM(T2.CHNL_MMS_SEND_MSG)||'0D0A'XC||COALESCE(T2.CHNL_REJECT_MSG,'') NOT LIKE T4.BASE_TXT||'%' THEN 'L1'
+			               WHEN T1.CHANNEL_CD = '_MP' AND TRIM(T2.CHNL_MMS_SEND_MSG)||'0D0A'XC||COALESCE(T2.CHNL_REJECT_MSG,'') NOT LIKE '%'||T3.BASE_TXT||'%' THEN 'L2'
+			               WHEN T1.CHANNEL_CD = '_MP' AND CHARACTER_LENGTH(TRIM(T2.CHNL_MMS_SEND_MSG)||'0D0A'XC||COALESCE(T2.CHNL_REJECT_MSG,'')) > 2000 THEN 'L3'
+			               WHEN T1.CHANNEL_CD = '_MP' AND TRIM(T2.CHNL_MMS_SEND_TITLE) NOT LIKE T4.BASE_TXT||'%' THEN 'L4'
+			               WHEN T1.CHANNEL_CD = '_MP' AND CHARACTER_LENGTH(TRIM(T2.CHNL_MMS_SEND_TITLE)) > 40 THEN 'L5'
+
+			               WHEN T1.CHANNEL_CD = '_PM' AND TRIM(T2.CHNL_MMS_SEND_MSG)||'0D0A'XC||COALESCE(T2.CHNL_REJECT_MSG,'') NOT LIKE T4.BASE_TXT||'%' THEN 'M1'
+			               WHEN T1.CHANNEL_CD = '_PM' AND TRIM(T2.CHNL_MMS_SEND_MSG)||'0D0A'XC||COALESCE(T2.CHNL_REJECT_MSG,'') NOT LIKE '%'||T3.BASE_TXT||'%' THEN 'M2'
+			               WHEN T1.CHANNEL_CD = '_PM' AND CHARACTER_LENGTH(TRIM(T2.CHNL_MMS_SEND_MSG)||'0D0A'XC||COALESCE(T2.CHNL_REJECT_MSG,'')) > 2000 THEN 'M3'
+			               WHEN T1.CHANNEL_CD = '_PM' AND TRIM(T2.CHNL_MMS_SEND_TITLE) NOT LIKE T4.BASE_TXT||'%' THEN 'M4'
+			               WHEN T1.CHANNEL_CD = '_PM' AND CHARACTER_LENGTH(TRIM(T2.CHNL_MMS_SEND_TITLE)) > 40 THEN 'M5'
+
+			               ELSE '0'
+			            END AS ERROR_FLAG
+			      FROM
+			         (
+			               SELECT A.CAMPAIGN_SK
+			                        , A.COMMUNICATION_CD
+			                        , A.CHANNEL_CD
+			                        , MAX(A.CELL_PACKAGE_SK) AS CELL_PACKAGE_SK
+			                        , MAX(A.COMMUNICATION_SK) AS COMMUNICATION_SK
+			               FROM
+			                  CI_CELL_PACKAGE AS A
+			               WHERE 1=1
+			                  AND A.CAMPAIGN_SK IN (#{campaign_id})
+			                  AND A.CHANNEL_CD IN ('_BT','_MP','_PM')
+			               GROUP BY A.CAMPAIGN_SK
+			                     , A.COMMUNICATION_CD
+			                     , A.CHANNEL_CD
+			         ) AS T1 ,
+			         CI_COMMUNICATION_EXT AS T2 ,
+			            ( SELECT BASE_TXT FROM CD_MSG_REJECT_INFO WHERE BASE_TYPE = '0002' AND USE_YN = 'Y' ) AS T3,
+			            ( SELECT BASE_TXT FROM CD_MSG_REJECT_INFO WHERE BASE_TYPE = '0001' AND USE_YN = 'Y' ) AS T4
+			      WHERE 1=1
+			            AND T1.COMMUNICATION_SK = T2.COMMUNICATION_SK
+			            AND ERROR_FLAG <> '0'
+			   ) AS T
+		]]>
+	</select>
+
+</mapper>

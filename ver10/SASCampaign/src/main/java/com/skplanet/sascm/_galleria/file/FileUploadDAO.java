@@ -23,5 +23,4 @@ public class FileUploadDAO extends AbstractDAO {
 	public Integer fileDelete(DataMap deliverParams) {
 		return (int) update("fileupload.fileuploadDelete", deliverParams);
 	}
-
 }
