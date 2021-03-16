@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--
+create table cp_exp_cust 
+(
+);
+create table cp_add_exp_cd 
+(
+);
+create table cp_cust 
+(
+);
+-->
 <mapper namespace="exceptCustomer">
     <select id="exceptCustomerSelect" parameterType="map" resultType="map">
          <![CDATA[
-         SELECT T1.CRM_NO                                                            AS CRM_NO
+         SELECT T1.CRM_NO                                                             AS CRM_NO
                , T3.MEM_NO                                                            AS MEM_NO
                , CASE WHEN T3.GNDR_CD = '2' THEN '여성'
                      WHEN T3.GNDR_CD = '1' THEN '남성'
@@ -18,11 +29,10 @@
                , T1.APPLY_STRT_DT                                                     AS APPLY_STRT_DT
                , T1.APPLY_END_DT                                                      AS APPLY_END_DT
                , CASE WHEN APPLY_END_DT > CURRENT_DATE THEN '적용중' ELSE '종료' END  AS STATUS
-            FROM CPA.CP_EXP_CUST                T1
-            LEFT OUTER JOIN CPA.CP_ADD_EXP_CD   T2
-                        ON T1.RS_CD = T2.RS_CD
-            LEFT OUTER JOIN CPM.CP_CUST         T3
-                        ON T1.CRM_NO = T3.CRM_NO
+            FROM 
+               CP_EXP_CUST                         T1
+               LEFT OUTER JOIN     CP_ADD_EXP_CD   T2    ON T1.RS_CD = T2.RS_CD
+               LEFT OUTER JOIN     CP_CUST         T3    ON T1.CRM_NO = T3.CRM_NO
          WHERE 1=1
          ]]>
          <if test="last_crm_no != null">
@@ -44,30 +54,30 @@
     <select id="exceptCustomerCount" resultType="int">
          <![CDATA[
          SELECT COUNT(*) AS CNT
-            FROM CPA.CP_EXP_CUST
+            FROM CP_EXP_CUST
          ]]>
     </select>
     <update id="exceptCustomerUpdate" parameterType="map">
          <![CDATA[
-         UPDATE CPA.CP_EXP_CUST
+         UPDATE CP_EXP_CUST
             SET APPLY_END_DT = CURRENT_DATE
          WHERE CRM_NO = #{crm_no}
          ]]>
     </update>
     <select id="exceptCustomerSearch" parameterType="map" resultType="map">
          <![CDATA[
-         SELECT CRM_NO   AS CRM_NO
+         SELECT CRM_NO    AS CRM_NO
                , MEM_NO   AS MEM_NO
                , GNDR_CD  AS GNDR_CD
                , AGE_CD   AS AGE_CD
-            FROM CPM.CP_CUST
+            FROM CP_CUST
          WHERE MEM_NO = #{mem_no}
          ]]>
     </select>
     <insert id="exceptCustomerInsert" parameterType="map">
          <![CDATA[
          INSERT
-            INTO CPA.CP_EXP_CUST
+            INTO CP_EXP_CUST
                (
                CRM_NO
                , RS_CD

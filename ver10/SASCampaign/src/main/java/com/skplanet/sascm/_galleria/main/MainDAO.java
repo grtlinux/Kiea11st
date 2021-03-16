@@ -40,21 +40,3 @@ public class MainDAO extends AbstractDAO {
 	}
 }
 
-/*
- * 
-create table cp_emp 
-(
-	emp_no varchar(10)  ,  -- H12345
-	emp_id  varchar(10) ,	-- 10743616
-	emp_nm varchar(20) ,
-	team_cd  varchar(50) ,
-	sasuser_yn varchar(2) ,	 -- Y N 
-	dept_nm  varchar(50) ,
-	dept_cd varchar(10) , 
-	lms_cost_id varchar(20) ,
-	mngr_yn	varchar(2) ,  -- Y N
-	real_tm_yn varchar(2) ,
-	evnt_mngr_yn varchar(2) 
-)
-
-*/

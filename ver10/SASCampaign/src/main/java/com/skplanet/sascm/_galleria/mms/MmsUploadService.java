@@ -24,7 +24,7 @@ public class MmsUploadService {
 
 	@Autowired
 	private MmsUploadDAO fsDao;
-	private String targetPath = "D:\\SASUpload\\MMSIMG";
+	private String targetPath = "/Users/kang-air/FILES/MMSIMG";
 
 	public List<HashMap<String, Object>> mmsSelect(DataMap deliverParams) throws Exception {
 		log.debug("mmsSelect start");

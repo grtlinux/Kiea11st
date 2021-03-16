@@ -3,11 +3,10 @@
 <%
     String contextPath = request.getContextPath();
     String userid = request.getParameter("uid");
-%>
-<%
+    userid = "H12345";
     session.setAttribute("userid",userid);
 %>
-<!DOCTYPE html lang="kr">
+<!doctype html>
 <head>
 <title>SAS Campaign Management</title>
 <meta charset="utf-8">
@@ -97,7 +96,6 @@ body
 <body bgcolor="#27292D">
 <script src="/SASCampaign/_galleria/js/jquery-1.9.1.min.js"></script>
 <script type="text/javasxript">
-	alert("안녕");
 </script>
 
 <center>

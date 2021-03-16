@@ -24,7 +24,7 @@ public class FileUploadService {
 
 	@Autowired
 	private FileUploadDAO fsDao;
-	private String targetPath = "D:\\SASUpload";
+	private String targetPath = "/Users/kang-air/FILES/UPLOAD";
 
 	public List<HashMap<String, Object>> fileSelect(DataMap deliverParams) throws Exception {
 		log.debug("fileSelect start");

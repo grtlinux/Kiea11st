@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--
+create table cp_cmpgn_documt
+(
+	file_seq       integer,
+	file_flag_cd   char(1),
+	file_name      varchar(100),
+	server_file_nm varchar(100),
+	emp_id         varchar(11)
+);
+-->
 <mapper namespace="fileupload">
     <!-- Paging 처리는 TOP 구문 사용 -->
     <select id="fileuploadSelect" parameterType="map" resultType="map">
         <![CDATA[
-        SELECT FILE_SEQ       AS FILE_SEQ
+        SELECT FILE_SEQ      AS FILE_SEQ
             , FILE_NM        AS FILE_NM
             , SERVER_FILE_NM AS SERVER_FILE_NM
-          FROM CPV.CP_CMPGN_DOCUMT
-        WHERE SERVER_FILE_NM = TRIM('D:/SASUpload')
+          FROM CP_CMPGN_DOCUMT
+        WHERE SERVER_FILE_NM = TRIM('/Users/kang-air/FILES/UPLOAD')
           AND FILE_NM        LIKE '%'||#{userid}||'%'
           AND EMP_ID         = #{userid}
         ORDER BY FILE_SEQ
@@ -18,7 +28,7 @@
     <insert id="fileuploadInsert" parameterType="map">
         <![CDATA[
         INSERT
-          INTO CPA.CP_CMPGN_DOCUMT
+          INTO CP_CMPGN_DOCUMT
             (
               FILE_SEQ
             , FILE_NM
@@ -27,9 +37,9 @@
             )
         SELECT CASE WHEN MAX(FILE_SEQ) IS NULL THEN 1 ELSE MAX(FILE_SEQ) + 1 END
             , #{file_nm}
-            , TRIM('D:/SASUpload')
+            , TRIM('/Users/kang-air/FILES/UPLOAD')
             , #{userid}
-          FROM CPA.CP_CMPGN_DOCUMT
+          FROM CP_CMPGN_DOCUMT
         ]]>
     </insert>
     <update id="fileuploadDelete" parameterType="map">
