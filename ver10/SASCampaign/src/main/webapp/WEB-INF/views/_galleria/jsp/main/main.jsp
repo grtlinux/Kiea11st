@@ -100,7 +100,11 @@ body
 
 <center>
 <table width="100%" height="70" border="0" bgcolor="#1A1A1A">
-<tr><td align="center"><img src="/SASCampaign/_galleria/images/logo.jpg" width="115" height="70"/></td></tr>
+<tr><td align="center">
+	<a href="/SASCampaign/">
+	<img src="/SASCampaign/_galleria/images/logo.jpg" width="115" height="70"/>
+	</a>
+</td></tr>
 </table>
 
 

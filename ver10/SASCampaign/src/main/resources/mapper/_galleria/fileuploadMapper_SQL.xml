@@ -44,7 +44,7 @@ create table cp_cmpgn_documt
     </insert>
     <update id="fileuploadDelete" parameterType="map">
         <![CDATA[
-        DELETE FROM CPA.CP_CMPGN_DOCUMT
+        DELETE FROM CP_CMPGN_DOCUMT
         WHERE FILE_SEQ = #{file_seq}
           AND EMP_ID = #{userid}
         ]]>

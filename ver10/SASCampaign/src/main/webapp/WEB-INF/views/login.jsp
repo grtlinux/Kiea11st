@@ -46,6 +46,35 @@
 <script src="${staticPATH }/assets/js/login.js"></script>
 <script src="${staticPATH }/js/common/common.js"></script>
 
+<script>
+	console.log("TEST for checking filename...");
+	/*
+	// TEST-KANG-20210316: for regex
+	var str = "TI_H123456-2021@0316_한글입니다.jpg";
+	str = "C:\\fakepath\\법인통장확인요(타인).xls";
+	str = "법인통장확인(확인).xls";
+	console.log("1. str = [" + str + "]");
+	str = str.replace(/[a-zA-Z0-9_\-\.]/g, ''); // eliminate the letter of alph(lower,uppper) and num
+	str = str.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''); // eliminate korean letter
+	console.log("2. str = [" + str + "]");
+	if (str != "") {
+		console.log("FAIL: included the letters [" + str + "]");
+	} else {
+		console.log("SUCCESS");
+	}
+
+	// 특수 문자 체크
+	function checkSpecial(str) {
+		const regExp = /[~!@#$%^&*()_+-|<>?:;`,{}\]\[/\'\"\\\']/gi;
+		if (regExp.test(str)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	*/
+</script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		var loginYn = getParameterByName('login_yn');
@@ -57,7 +86,7 @@
 			console.log("KANG: id: " + $("#id").val());
 			alert("pause");
 		}
-		
+
 		if (loginYn == "True" && userid != "") {
 			//console.log("true");
 			$("#id").val(userid);
@@ -102,7 +131,7 @@
 
 			console.log("userid : "+ $("#_username").val() );
 			//console.log("passwd : "+ $("#_password").val() );
-			
+
 			setCookie("_username", $("#_username").val(), 1);
 
 			var f = document.frm;
@@ -319,7 +348,7 @@
 			<input type="hidden" name="_username" id="_username"/>
 			<input type="hidden" name="_password" id="_password"/>
 		</form>
-		
+
 		<div class="row">
 			<div class="col-md-8">
 				<div class="panel panel-danger">
@@ -331,7 +360,7 @@
 					</div>
 				</div>
 			</div>
-	
+
 			<div class="col-md-4">
 				<div class="panel panel-info">
 					<div class="panel-heading ">
