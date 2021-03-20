@@ -212,4 +212,27 @@ public class ApproveAction extends BaseAction {
 		log.debug("#####################   /_galleria/approve/chkMsg.do finish  ############################");
 		return mv;
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 화면 진입
+	@RequestMapping("/_galleria/approve/campaign")
+	public ModelAndView campaign(HttpServletRequest request, HttpServletResponse response) {
+		log.debug("#####################   /_galleria/approve/campaign.do start  ############################");
+		ModelAndView mv = new ModelAndView("/_galleria/jsp/approve/campaign");
+		try {
+			mv.addObject("cmpgn_id", request.getParameter("cmpgn_id"));
+			mv.addObject("empid", request.getParameter("empid"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("result", ExceptionHandler.getMessage(e));
+		}
+		log.debug("#####################   /_galleria/approve/campaign.do finish  ############################");
+		return mv;
+	}
 }

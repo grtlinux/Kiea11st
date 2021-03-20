@@ -225,11 +225,15 @@ function openPopupEPAgent(cmpgn_id) {
 }
 
 function openAPSign(cmpgn_id) {
-	alert("KANG: 상신(캠페인) 팝업입니다.");
-	return false;
+	//alert("KANG: 상신(캠페인) 팝업입니다.");
+	//return false;
 	
 	var param = '?cmpgn_id=' + cmpgn_id + '&empid=<%=session.getAttribute("userid")%>';
-	var url = 'http://gstart.galleria.co.kr/apagent/campaign.jsp' + param;
+	//var url = 'http://gstart.galleria.co.kr/apagent/campaign.jsp' + param;
+	var url = '/SASCampaign/_galleria/approve/campaign.do' + param;
+	url = 'abour:blank';
+	alert("KANG: 상신(캠페인) 팝업입니다. " + url);
+	
 	var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;"; 
 	//var vReturn = window.showModalDialog(url, window,  popOptions ); 
 	//if (vReturn == 'ok'){
