@@ -224,8 +224,10 @@ public class ApproveAction extends BaseAction {
 	@RequestMapping("/_galleria/approve/campaign")
 	public ModelAndView campaign(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("#####################   /_galleria/approve/campaign.do start  ############################");
-		ModelAndView mv = new ModelAndView("/_galleria/jsp/approve/campaign");
+		ModelAndView mv = new ModelAndView("/_galleria/jsp/approve/campaign2");
 		try {
+			log.debug("KANG-20210221 >>>>> cmpgn_id = " + request.getParameter("cmpgn_id"));
+			log.debug("KANG-20210221 >>>>> empid = " + request.getParameter("empid"));
 			mv.addObject("cmpgn_id", request.getParameter("cmpgn_id"));
 			mv.addObject("empid", request.getParameter("empid"));
 		} catch (Exception e) {

@@ -224,25 +224,50 @@ function openPopupEPAgent(cmpgn_id) {
 	}
 }
 
-function openAPSign(cmpgn_id) {
+function openAPSign_old(cmpgn_id) {
 	//alert("KANG: 상신(캠페인) 팝업입니다.");
 	//return false;
 	
-	var param = '?cmpgn_id=' + cmpgn_id + '&empid=<%=session.getAttribute("userid")%>';
+	// var param = '?cmpgn_id=' + cmpgn_id + '&empid=<%=session.getAttribute("userid")%>';
 	//var url = 'http://gstart.galleria.co.kr/apagent/campaign.jsp' + param;
 	var url = '/SASCampaign/_galleria/approve/campaign.do' + param;
-	url = 'abour:blank';
+	//url = 'abour:blank';
 	alert("KANG: 상신(캠페인) 팝업입니다. " + url);
 	
 	var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;"; 
 	//var vReturn = window.showModalDialog(url, window,  popOptions ); 
 	//if (vReturn == 'ok'){
-	var vReturn = window.open(url, window,  popOptions );	// new 20201228
-	if (vReturn != null){   // new 20201228
+	//var vReturn = window.open(url, window,  popOptions );	// new 20201228
+	var vReturn = window.open(url, "_campaign",  popOptions );	// new 20201228
+	if (vReturn != null) {   // new 20201228
+		updateDocument(cmpgn_id); 
+	//} else {
+	}
+	window.close();
+}
+
+
+function openAPSign(cmpgn_id) {
+	var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;"; 
+	var nReturn = window.open('about:blank','_frmPopupView', popOptions);  
+	
+	var frmPop2= document.frmPopup2;
+	frmPop2.action = '/SASCampaign/_galleria/approve/campaign.do';
+	frmPop2.cmpgn_id.value = cmpgn_id;
+	frmPop2.empid.value = '<%=session.getAttribute("userid")%>';
+	frmPop2.target = '_frmPopupView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
+	frmPop2.submit();   
+	alert("KANG: 상신(캠페인) 팝업입니다. " + url);
+	
+	//var vReturn = window.showModalDialog(url, window,  popOptions ); 
+	//if (vReturn == 'ok'){
+	//var vReturn = window.open(url, window,  popOptions );	// new 20201228
+	//var vReturn = window.open(url, "_campaign",  popOptions );	// new 20201228
+	if (vReturn != null) {   // new 20201228
 		updateDocument(cmpgn_id); 
 	} else {
 	}
-	window.close();
+	nReturn.close();
 }
 
 function openChkMsg(cmpgn_id){
@@ -276,6 +301,14 @@ function openPopupApprove(cmpgn_id) {
 <%
 }
 %>
+
+
+
+<form name="frmPopup2">
+<input type="hidden" name="cmpgn_id">
+<input type="hidden" name="empid">
+</form>
+
 </body>
 
 

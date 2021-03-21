@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=utf-8
+encoding//src/main/webapp/WEB-INF/views/_galleria/jsp/approve/campaign2.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/_galleria/jsp/approve/chkmsg.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/_galleria/jsp/approve/detail.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/_galleria/jsp/approve/interactSelect.jsp=UTF-8

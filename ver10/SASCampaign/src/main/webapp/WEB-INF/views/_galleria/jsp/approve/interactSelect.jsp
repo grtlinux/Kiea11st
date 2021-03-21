@@ -139,7 +139,8 @@ function openPopupApprove() {
 	var popOptions = "dialogWidth:1024px; dialogHeight:768px; center: yes; resizable: no; status: no; scroll: yes;";
 	//var vReturn = window.showModalDialog(url, window,  popOptions );
 	//if (vReturn == 'ok'){
-	var vReturn = window.open(url, window,  popOptions );   // new 20201228
+	//var vReturn = window.open(url, window,  popOptions );   // new 20201228
+	var vReturn = window.open(url, "_select",  popOptions );   // new 20201228
 	if (vReturn != null){   // new 20201228
 		updateDocument(cmpgn_id);
 	} else {
