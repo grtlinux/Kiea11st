@@ -224,6 +224,7 @@ function openPopupEPAgent(cmpgn_id) {
 	}
 }
 
+//KANG-20210321: GET2POST
 function openAPSign_old(cmpgn_id) {
 	//alert("KANG: 상신(캠페인) 팝업입니다.");
 	//return false;
@@ -247,6 +248,7 @@ function openAPSign_old(cmpgn_id) {
 }
 
 
+// KANG-20210321: GET2POST
 function openAPSign(cmpgn_id) {
 	var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;"; 
 	var nReturn = window.open('about:blank','_frmPopupView', popOptions);  
@@ -304,6 +306,7 @@ function openPopupApprove(cmpgn_id) {
 
 
 
+<!-- KANG-20210321: GET2POST -->
 <form name="frmPopup2">
 <input type="hidden" name="cmpgn_id">
 <input type="hidden" name="empid">
