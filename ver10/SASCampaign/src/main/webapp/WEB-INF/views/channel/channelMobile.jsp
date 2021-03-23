@@ -2969,9 +2969,14 @@
 				return false;
 			}
 			var txtTest = "(테스트)";
-			$('#IOS_MSG').val(txtTest + $('#MOBILE_DISP_TITLE').val() + "\n" + $('#MOBILE_CONTENT').val());
-			$('#AND_TOP_MSG').val(txtTest + $('#MOBILE_DISP_TITLE').val());
-			$('#AND_BTM_MSG').val(txtTest + $('#MOBILE_CONTENT').val());
+			//$('#IOS_MSG').val(txtTest + $('#MOBILE_DISP_TITLE').val() + "\n" + $('#MOBILE_CONTENT').val());
+			//$('#AND_TOP_MSG').val(txtTest + $('#MOBILE_DISP_TITLE').val());
+			//$('#AND_BTM_MSG').val(txtTest + $('#MOBILE_CONTENT').val());
+			// KANG20210323: alimi test
+			$('#IOS_MSG').val(txtTest + $('#MOBILE_CONTENT').val() + "\n" + $('#MOBILE_DISP_TITLE').val());
+			$('#AND_TOP_MSG').val(txtTest + $('#MOBILE_CONTENT').val());
+			$('#AND_BTM_MSG').val(txtTest + $('#MOBILE_DISP_TITLE').val());
+			
 			$('#DETAIL_URL').val($('#MOBILE_LNK_PAGE_URL').val());
 			$('#BANNER_URL').val($('#BNNR_IMG_URL').val());
 			$('#TALK_SUMMARY_MSG').val(txtTest + $('#alimiText').val());
