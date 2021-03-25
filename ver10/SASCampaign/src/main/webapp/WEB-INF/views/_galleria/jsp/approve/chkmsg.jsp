@@ -1,11 +1,105 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	String contextPath = request.getContextPath();
+	String userid = request.getParameter("uid");
+	userid = "H12345";
+	session.setAttribute("userid",userid);
+%>
+<!doctype html>
+<head>
+<title>SAS Campaign Management</title>
+<meta charset="utf-8">
+<link href="/favicon.ico" rel="shortcut icon"/>
+<style type="text/css">
+<!--
+.textTitle {
+	font-size:30px;
+	font-weight:bold;
+	color:#FFFFFF;
+}
+.textMenu {
+	font-size:12px;
+	color:#CCCCCC;
+}
+.tdMain {
+	/*background-color:#36383C;*/
+	background-color:#323433;
+}
+.tdMain:hover {
+	/*background-color:#4A4A4D;*/
+	background-color:#434343;
+}
+.tdApprove {
+	background:url("/SASCampaign/_galleria/images/approve-off.png") no-repeat;
+}
+.tdApprove:hover {
+	background:url("/SASCampaign/_galleria/images/approve-on.png") no-repeat;
+}
+.tdMonitor {
+	background:url("/SASCampaign/_galleria/images/monitor-off.png") no-repeat;
+}
+.tdMonitor:hover {
+	background:url("/SASCampaign/_galleria/images/monitor-on.png") no-repeat;
+}
+.tdDesign {
+	background:url("/SASCampaign/_galleria/images/design-off.png") no-repeat;
+}
+.tdDesign:hover {
+	background:url("/SASCampaign/_galleria/images/design-on.png") no-repeat;
+}
+.tdExcept {
+	background:url("/SASCampaign/_galleria/images/except-off.png") no-repeat;
+}
+.tdExcept:hover {
+	background:url("/SASCampaign/_galleria/images/except-on.png") no-repeat;
+}
+.tdExcel {
+	background:url("/SASCampaign/_galleria/images/excel-off.png") no-repeat;
+}
+.tdExcel:hover {
+	background:url("/SASCampaign/_galleria/images/excel-on.png") no-repeat;
+}
+.tdAppend {
+	background:url("/SASCampaign/_galleria/images/append-off.png") no-repeat;
+}
+.tdAppend:hover {
+	background:url("/SASCampaign/_galleria/images/append-on.png") no-repeat;
+}
+.tdPolicy {
+	background:url("/SASCampaign/_galleria/images/center-policy-off.png") no-repeat;
+}
+.tdPolicy:hover {
+	background:url("/SASCampaign/_galleria/images/center-policy-on.png") no-repeat;
+}
+.sortable tr:hover {
+	cursor: pointer;
+}
+select.comboTeam option.option_combo
+{
+	background-color: #4A4A4D;
+}
+-->
+html
+{
+	overflow-x: hidden;
+	overflow-y: yes;
+}
+body
+{
+	font-family:'Malgun Gothic' !important;
+	margin: 0;
+	padding: 0;
+}
+</style>
+</head>
 <body bgcolor="#4A4A4D" onLoad="init();">
 <%
 if(session.getAttribute("userid")!=null) {
     
 %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script src="/sasma/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
 
 function init() {
@@ -67,18 +161,39 @@ function init() {
 
 }
 
-function confirmUpload(cmpgn_id) {
+//KANG-20210325: GET2POST old
+function confirmUpload_old(cmpgn_id) {
 	var param = '?cmpgn_id=' + cmpgn_id + '&empid=<%=session.getAttribute("userid")%>';
-    var url = 'http://gstart.galleria.co.kr/apagent/campaign.jsp' + param;
-    var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;"; 
-    //var vReturn = window.showModalDialog(url, window,  popOptions ); 
-    //if (vReturn == 'ok'){
-    var vReturn = window.open(url, window,  popOptions );   // new 20201228
-    if (vReturn != null){   // new 20201228
-        updateDocument(cmpgn_id); 
-    } else {
-    }
-    window.close();
+  var url = 'http://gstart.galleria.co.kr/apagent/campaign.jsp' + param;
+  var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;"; 
+  //var vReturn = window.showModalDialog(url, window,  popOptions ); 
+  //if (vReturn == 'ok'){
+  var vReturn = window.open(url, window,  popOptions );   // new 20201228
+  if (vReturn != null){   // new 20201228
+      updateDocument(cmpgn_id); 
+  } else {
+  }
+  window.close();
+}
+
+//KANG-20210325: GET2POST new
+function confirmUpload(cmpgn_id) {
+	var popOptions = "dialogWidth: 800px; dialogHeight: 700px; center: yes; resizable: no; status: no; scroll: yes;";
+	var nReturn = window.open('about:blank','_frmPopupView', popOptions);  
+	
+	var frmPop2= document.frmPopup2;
+	frmPop2.action = 'http://gstart.galleria.co.kr/apagent/campaign.jsp';
+	frmPop2.cmpgn_id.value = cmpgn_id;
+	frmPop2.empid.value = '<%=session.getAttribute("userid")%>';
+	frmPop2.target = '_frmPopupView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
+	frmPop2.submit();
+	
+	if (vReturn != null){   // new 20201228
+		updateDocument(cmpgn_id); 
+	} else {
+	}
+	
+	nReturn.close();
 }
 
 function cancelUpload() {
@@ -139,4 +254,22 @@ function cancelUpload() {
 <%
 }
 %>
+
+
+
+<!-- KANG-20210325: GET2POST -->
+<form name="frmPopup2">
+<input type="hidden" name="cmpgn_id">
+<input type="hidden" name="empid">
+</form>
+
 </body>
+
+
+
+</html>
+
+
+
+
+
