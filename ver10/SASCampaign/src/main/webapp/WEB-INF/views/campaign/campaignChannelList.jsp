@@ -816,9 +816,11 @@
 			beforeSend:function(){
 			},
 			complete:function(){
+				closeWindowByMask();
 			},
 			error: function(result, option) {
 				alert("에러가 발생하였습니다.");
+				closeWindowByMask();
 			}
 		});
 	}
