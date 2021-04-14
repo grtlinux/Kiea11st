@@ -536,7 +536,10 @@ public class CampaignController {
 				map.put("batchDtCheck", "ERROR");
 			}
 			// 최초 1회 Insert 완료.
-		} else {
+		//} else {  // KANG-20210414: change to the below
+		}
+		// KANG-20210414: 생성전 캠페인 선택시에 화면 Mask lock 발생함에 대한 처리.
+		{
 			// ############### 속성 / 요약 정보 (BGN)
 			CampaignInfoBO bo = this.campaignInfoService.getCampaignInfo(map);                               // KANG-20190413: 02. CampaignInfo.getCampaignInfo
 			CampaignInfoBO boSummary = this.campaignInfoService.getCampaignInfoSummary(map);                 // KANG-20190413: 03. CampaignInfo.getCampaignInfoSummary
