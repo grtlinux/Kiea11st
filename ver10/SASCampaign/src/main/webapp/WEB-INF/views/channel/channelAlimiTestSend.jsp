@@ -234,7 +234,8 @@
 			$("#_TARGET_LIST").val($("#TARGET_LIST").val());
 			$("#_SERVER_TYPE").val($("#SERVER_TYPE").val());
 			$("#_TALK_MSG_TEMP_NO").val($("#TALK_MSG_TEMP_NO").val());
-			$("#_TALK_DISP_YN").val($("#TALK_DISP_YN").val());
+			//$("#_TALK_DISP_YN").val($("#TALK_DISP_YN").val());  // changed to the below because of radio button
+			$("#_TALK_DISP_YN").val($('input:radio[name="TALK_DISP_YN"]:checked').val());
 			$("#_IOS_MSG").val($("#IOS_MSG").val());
 			$("#_AND_TOP_MSG").val($("#AND_TOP_MSG").val());
 			$("#_AND_BTM_MSG").val($("#AND_BTM_MSG").val());
@@ -364,7 +365,9 @@
 						<tr>
 							<td class="info">Talk Disp YN</td>
 							<td class="tbtd_content">
-								<input type="text" class="txt" id="TALK_DISP_YN" name="TALK_DISP_YN" style="width: 200px;" maxlength="50" value="${TALK_DISP_YN}" readonly />
+								<!-- input type="text" class="txt" id="TALK_DISP_YN" name="TALK_DISP_YN" style="width: 200px;" maxlength="50" value="${TALK_DISP_YN}" readonly / -->
+								<input type="radio" name="TALK_DISP_YN" id="Y" value="Y" checked> Yes
+								<input type="radio" name="TALK_DISP_YN" id="N" value="N"> No
 							</td>
 						</tr>
 						<tr>

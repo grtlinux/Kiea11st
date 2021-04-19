@@ -3148,7 +3148,8 @@ public class ChannelController {
 			//pushTalkParam.setPushIosMessage(obj.get("IOS_MSG").getAsString());         // IOS message
 			//pushTalkParam.setPushTopMessage(obj.get("AND_TOP_MSG").getAsString());     // Android Top message
 			//pushTalkParam.setPushBottomMessage(obj.get("AND_BTM_MSG").getAsString());  // Android Bottom message
-			pushTalkParam.setTalkDispYn("Y");              // 고정 처리 (Y) 알림-혜택톡방 동시 사용함
+			// pushTalkParam.setTalkDispYn("Y");              // KANG-20210414: changed to the below 
+			pushTalkParam.setTalkDispYn(request.getParameter("TALK_DISP_YN"));              // 고정 처리 (Y) 알림-혜택톡방 동시 사용함
 			pushTalkParam.setDetailUrl(detailUrl);         // 일반푸시 사용시- 클릭URL
 			pushTalkParam.setBannerUrl(bannerUrl);         // 푸시배너이미지. 없을경우 생략가능
 			pushTalkParam.setEtcData(mapEtcSasData);       // 기타 데이타 SAS에서 사용
