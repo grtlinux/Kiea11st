@@ -2,7 +2,7 @@
 > 11st 17th
 
 ---------------------------------------------------------------
-* Mask
+*1. Mask
 
 	문제)
 		CampaignController.java (L:539)
@@ -19,7 +19,21 @@
 		CampaignController.class
 	
 ---------------------------------------------------------------
-* 알림톡 테스트 발송 -> 알리미 개발팀 8월에 작업한다고 함.
+*2. '알림이 테스트 발송' 선택 'Talk Disp YN' (Y/N)
+
+	문제)
+		channelAlimiTestSend.jsp(L365) 'Talk Disp YN' 항목이 'Y'로 고정이 되어 있음.
+	
+	처리)
+		나중에는 radio or select 로 처리한다.
+	
+	이관)
+		channelAlimiTestSend.jsp (L:237) (L:368)
+		ChannelController.java (L:3151)
+
+---------------------------------------------------------------
+[연기]
+*3. 알림톡 테스트 발송 -> 알리미 개발팀 8월에 작업한다고 함.
 
 	문제)
 		테스트 알림톡 미발송
@@ -36,20 +50,7 @@
 		ChannelController.class
 	
 ---------------------------------------------------------------
-* '알림이 테스트 발송' 선택 'Talk Disp YN' (Y/N)
-
-	문제)
-		channelAlimiTestSend.jsp(L365) 'Talk Disp YN' 항목이 'Y'로 고정이 되어 있음.
-	
-	처리)
-		나중에는 radio or select 로 처리한다.
-	
-	이관)
-		channelAlimiTestSend.jsp (L:237) (L:368)
-		ChannelController.java (L:3151)
-
----------------------------------------------------------------
-* 알리미 전송이 manual일 경우 '발송시간'을 기록가능 채크박스 추가... 복사.
+*4. 알리미 전송이 manual일 경우 '발송시간'을 기록가능 채크박스 추가... 복사.
 
 	문제)
 		전송방식이 manual 일 때, 현재는 disabled 되어 있는 항목임.
@@ -57,12 +58,26 @@
 	처리)
 		항목 옆에 enable/disable 채크박스를 만들어 enable이면 발송시간을 기록할 수 있도록 함.
 		채널 복사시에도 그대로 복사한다.
+		(o)미사용  ( )사용
 	
+		JSP
+			campaign
+				channelMobile.jsp
+			channel
+				channelMobile.jsp    /channel/channelMobile.do
+				channelEmail.jsp
+				channelSms.jsp
+				channelLms.jsp
+			content
+				channelMobile.jsp
+				channelEmail.jsp
+				channelSms.jsp
+				channelLms.jsp
 	이관)
 	
 
 ---------------------------------------------------------------
-- 캠페인 채널 복사
+-5. 캠페인 채널 복사
 
 	문제)
 	
@@ -73,7 +88,7 @@
 	
 
 ---------------------------------------------------------------
-- 캠페인 실행중일 때 캠페인 내용을 수정 가능토록 할 수 있는 방법
+-6. 캠페인 실행중일 때 캠페인 내용을 수정 가능토록 할 수 있는 방법
 
 	문제)
 		'채널 상세 정보' 수정토록 허가된 사용자에 대해서 '테스트 발송'에서 사용자를 선택하는 방식으로
@@ -84,7 +99,7 @@
 
 ---------------------------------------------------------------
 [취소]
-* CampaignInfo.setCampaignInfo 50000 이상만
+*7. CampaignInfo.setCampaignInfo 50000 이상만
 
 	문제)
 	

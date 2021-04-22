@@ -3039,6 +3039,30 @@
 
 
 
+<script>
+	// KANG-20210421: 발송시간 사용/미사용 추가
+	$(function () {
+		$('input:radio[name="USE_TIME_YN"]').change(function () {
+			alert("KANG-20210421 >>>>> USE_TIME_YN.radio.change => " + $(this).val());
+		});
+		
+		// alert("KANG-20210421 >>>>> document.ready...");
+	});
+	
+	function useTimeYn(chkRadio) {
+		alert("KANG-20210421 >>>>> USE_TIME_YN.radio.click => " + chkRadio.value);
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3143,6 +3167,11 @@
 												<option value="${val.code_id}" <c:if test="${val.code_id eq bo.mobile_send_prefer_cd}">selected="selected"</c:if>> ${val.code_name}</option>
 											</c:forEach>
 										</select>
+										&nbsp;
+										<!-- KANG-20210421: manual은 미사용인데 사용/미사용 선택 추가. 테이블필드 구성없이 MOBILE_DISP_TIME에 따라 결정. -->
+										<input type="radio" name="USE_TIME_YN" value="Y"> 사용
+										<input type="radio" name="USE_TIME_YN" value="N"> 미사용
+										
 									</td>
 								</tr>
 

@@ -3142,6 +3142,7 @@ public class ChannelController {
 			PushTalkParameter pushTalkParam = new PushTalkParameter(talkMsgTempNo, memberNo);
 			pushTalkParam.setAppKdCd(appKdCd);             // 발송대상 앱코드
 			//pushTalkParam.setMsgGrpNo(1235L);              // 메시지 식별 그룹번호. 없을경우 생략가능
+			pushTalkParam.setMsgGrpNo(0L);                       // 메시지 식별 그룹번호. 없을경우 생략가능  // KANG-20210421: 김창범메니져와 합의
 			pushTalkParam.setPushIosMessage(obj.toString());     // JSON (?)
 			pushTalkParam.setPushTopMessage(obj.toString());     // JSON (?)
 			pushTalkParam.setPushBottomMessage(obj.toString());  // JSON (?)
